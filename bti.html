@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="styles.css">
+        <title>Smile</title>
+    </head>
+
+    <body>
+        <div class="bti">
+            <div class="bti__header">
+                #Balance&VeryThinSpace;Ton&VeryThinSpace;Insa
+            </div>
+
+            <div class="bti__content">
+                <div class="bti__context">
+                    Lors d'un cours dédié au projet professionnel, […]
+                </div>
+                <div class="bti__quote">
+                    "Tu devrais te<br>
+                    maquiller, tu es<br>
+                    un peu palote"
+                </div>
+                <div class="bti__author">
+                    Professeur en GE
+                </div>
+            </div>
+
+            <div class="bti__footer">
+                Les Sang-Culottes
+            </div>
+
+            <div class="bti__decoration bti__decoration--left"></div>
+            <div class="bti__decoration bti__decoration--right"></div>
+
+
+            <div class="bti__download-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    alt="Télécharger sous forme d'image">
+                    <path fill="none" d="M0 0h24v24H0V0z" />
+                    <path fill="currentColor"
+                        d="M16.59 9H15V4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5H7.41c-.89 0-1.34 1.08-.71 1.71l4.59 4.59c.39.39 1.02.39 1.41 0l4.59-4.59c.63-.63.19-1.71-.7-1.71zM5 19c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1z" />
+                </svg>
+            </div>
+        </div>
+        <!-- <img src="./bti.png" /> -->
+    </body>
+
+    <script src="./html2canvas.min.js"></script>
+
+    <script>
+        // setTimeout(() => {
+        //     location.reload(true)
+        // }, 10000);
+
+        function save(filename, blob) {
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, filename)
+            } else {
+                const link = window.document.createElement('a')
+                const url = window.URL.createObjectURL(blob)
+                link.setAttribute('href', url)
+                link.setAttribute('download', filename)
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+            }
+        }
+
+        function render() {
+            document.designMode = 'off'
+            const bti = document.querySelector(".bti")
+            bti.classList.add('bti--rendering')
+
+            html2canvas(bti).then(canvas => {
+                const data = canvas.toBlob(blob => {
+                    save('bti.png', blob)
+                    bti.classList.remove('bti--rendering')
+                    document.designMode = 'on'
+                }, "image/png", 1)
+            })
+        }
+
+        const downloadButton = document.querySelector(".bti__download-button")
+        downloadButton.addEventListener('click', () => render())
+
+        document.designMode = 'on'
+
+    </script>
+
+    <script>
+        // https://github.com/github/user-select-contain-polyfill/blob/master/user-select-contain.mjs
+
+        function supportsUserSelectContain() {
+            const el = document.createElement("div");
+            el.style.cssText = "-ms-user-select: element; user-select: contain;";
+            return (
+                el.style.getPropertyValue("-ms-user-select") === "element" ||
+                el.style.getPropertyValue("-ms-user-select") === "contain" ||
+                el.style.getPropertyValue("user-select") === "contain"
+            );
+        }
+
+        function handleUserSelectContain(event) {
+            if (!(event.target instanceof Element)) return;
+
+            const currentTarget = event.target.closest(".user-select-contain");
+            if (!currentTarget) return;
+
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+
+            const container = selection.getRangeAt(0).commonAncestorContainer;
+            if (currentTarget.contains(container)) return;
+
+            selection.selectAllChildren(currentTarget);
+        }
+
+        if (window.getSelection && !supportsUserSelectContain()) {
+            document.addEventListener("click", handleUserSelectContain);
+        }
+
+    </script>
+
+</html>
