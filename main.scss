@@ -5,12 +5,15 @@ body {
     margin: 0;
 }
 
-// img {
-//     position: absolute;
-//     top: 0px;
-//     width: $debugSize;
-//     height: $debugSize;
-// }
+@font-face {
+    font-family: "Glacial Indifference";
+    src: url("./fonts/GlacialIndifference-bold.otf");
+}
+
+@font-face {
+    font-family: "League Spartan";
+    src: url("./fonts/LeagueSpartan-bold.otf");
+}
 
 @function x($x) {
     @return calc(#{(($x) / 100)} * var(--size));
